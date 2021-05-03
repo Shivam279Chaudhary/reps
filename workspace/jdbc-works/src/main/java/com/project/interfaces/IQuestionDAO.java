@@ -9,5 +9,5 @@ public interface IQuestionDAO {
 	
 	public boolean insertQuestion(Question question); 
 	public List<Question> getAllQuestion(); 
-	public Question getQuestion(int qId); 
+	public Question getQuestion(int questionID); 
 }

@@ -6,8 +6,6 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 
-// adith.naveen@gmail.com 
-
 public class DbConnect {
 
 	
