@@ -56,10 +56,10 @@ public class QuestionDAO implements IQuestionDAO {
 				question.setImageLink(rs.getString(8));
 				question.setReliability(rs.getInt(9));
 				question.setModifiedAt(rs.getString(5));
-
-				System.out.println("inside DOO : " + question);
-				list.add(question);
-
+				
+				
+				list.add(question); 
+				
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
