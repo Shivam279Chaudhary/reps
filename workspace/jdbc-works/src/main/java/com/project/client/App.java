@@ -33,7 +33,7 @@ public class App {
 		}
 
 		Comment comment = new Comment();
-		comment.setCommentID(12);
+		// comment.setCommentID(12);
 		comment.setText("answer is brief");
 		comment.setAnswerID(1);
 		comment.setUserID(1);
