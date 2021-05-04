@@ -61,7 +61,7 @@ public class QuestionDOO implements IQuestionDAO {
 				question.setReliability(rs.getInt(9));
 				question.setModifiedAt(rs.getString(5));
 				
-				System.out.println("inside DOO : " + question);
+				
 				list.add(question); 
 				
 			}
