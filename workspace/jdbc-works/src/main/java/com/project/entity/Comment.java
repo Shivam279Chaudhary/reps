@@ -2,7 +2,7 @@ package com.project.entity;
 
 public class Comment {
 	private int commentID;
-	private String text;
+	private String description;
 	private String modifiedAt;
 	private int answerID;
 	private int userID;
@@ -12,10 +12,10 @@ public class Comment {
 
 	}
 
-	public Comment(int commentID, String text, String modifiedAt, int answerID, int userID, int reliability) {
+	public Comment(int commentID, String description, String modifiedAt, int answerID, int userID, int reliability) {
 		super();
 		this.commentID = commentID;
-		this.text = text;
+		this.description = description;
 		this.modifiedAt = modifiedAt;
 		this.answerID = answerID;
 		this.userID = userID;
@@ -30,12 +30,12 @@ public class Comment {
 		this.commentID = commentID;
 	}
 
-	public String getText() {
-		return text;
+	public String getDescription() {
+		return description;
 	}
 
-	public void setText(String text) {
-		this.text = text;
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 	public String getModifiedAt() {
@@ -72,8 +72,8 @@ public class Comment {
 
 	@Override
 	public String toString() {
-		return "Comment [commentID=" + commentID + ", text=" + text + ", modifiedAt=" + modifiedAt + ", answerID="
-				+ answerID + ", userID=" + userID + ", reliability=" + reliability + "]";
+		return "Comment [commentID=" + commentID + ", description=" + description + ", modifiedAt=" + modifiedAt
+				+ ", answerID=" + answerID + ", userID=" + userID + ", reliability=" + reliability + "]";
 	}
 
 }

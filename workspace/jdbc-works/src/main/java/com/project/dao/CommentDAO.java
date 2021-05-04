@@ -14,16 +14,15 @@ public class CommentDAO implements ICommentDAO {
 
 	@Override
 	public boolean insertComment(Comment comment) {
-		String sql = "insert into comment values(?,?,?,?,?,?)";
+		String sql = "insert into comment (Description,ModifiedAt,AnswerID,UserID,Reliability) values(?,?,?,?,?)";
 		try {
 
 			PreparedStatement ps = DbConnect.getMySQLConn().prepareStatement(sql);
-			ps.setInt(1, comment.getCommentID());
-			ps.setString(2, comment.getText());
-			ps.setString(3, comment.getModifiedAt());
-			ps.setInt(4, comment.getCommentID());
-			ps.setInt(5, comment.getUserID());
-			ps.setInt(6, comment.getReliability());
+			ps.setString(1, comment.getDescription());
+			ps.setString(2, comment.getModifiedAt());
+			ps.setInt(3, comment.getAnswerID());
+			ps.setInt(4, comment.getUserID());
+			ps.setInt(5, comment.getReliability());
 
 			return ps.executeUpdate() > 0; // DML statement
 		} catch (SQLException e) {
@@ -33,42 +32,8 @@ public class CommentDAO implements ICommentDAO {
 	}
 
 	@Override
-	public List<Comment> getAllComment() {
-		String sql = "select commentID,text,modifiedAt,commentID,userID,reliability from comment";
-
-		List<Comment> list;
-		list = new ArrayList<Comment>();
-		try (PreparedStatement ps = DbConnect.getMySQLConn().prepareStatement(sql); ResultSet rs = ps.executeQuery(); // DQL
-																														// statement
-		) {
-			while (rs.next()) {
-
-				Comment comment = new Comment();
-				comment.setCommentID(rs.getInt(1));
-				comment.setText(rs.getString(2));
-				comment.setModifiedAt(rs.getString(3));
-				comment.setCommentID(rs.getInt(4));
-				comment.setUserID(rs.getInt(5));
-				comment.setReliability(rs.getInt(6));
-				list.add(comment);
-
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return list;
-	}
-
-	@Override
-	public Comment getComment(int commentID) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<Comment> getAllCommentsDESC(int AnswerID) {
-		// TODO Auto-generated method stub
-		String sql = "select * from comment where AnswerID= ? order by modifiedAt DESC";
+	public List<Comment> getAllComment(int AnswerID) {
+		String sql = "select * from comment where AnswerID=? order by ModifiedAt DESC";
 
 		List<Comment> list;
 		list = new ArrayList<Comment>();
@@ -81,14 +46,13 @@ public class CommentDAO implements ICommentDAO {
 
 				Comment comment = new Comment();
 				comment.setCommentID(rs.getInt(1));
-				comment.setText(rs.getString(2));
-				comment.setModifiedAt(rs.getString(4));
-				comment.setAnswerID(rs.getInt(5));
-				comment.setUserID(rs.getInt(6));
-				comment.setReliability(rs.getInt(7));
+				comment.setDescription(rs.getString(2));
+				comment.setModifiedAt(rs.getString(3));
+				comment.setAnswerID(rs.getInt(4));
+				comment.setUserID(rs.getInt(5));
+				comment.setReliability(rs.getInt(6));
 
 				list.add(comment);
-
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -112,13 +76,11 @@ public class CommentDAO implements ICommentDAO {
 		}
 
 		return false;
-
 	}
 
 	@Override
 	public boolean deleteCommentsByAnswerID(int AnswerID) {
 		// TODO Auto-generated method stub
-
 		try {
 			String sql = "DELETE from comment where AnswerID= ? ";
 			PreparedStatement ps = DbConnect.getMySQLConn().prepareStatement(sql);
@@ -131,22 +93,21 @@ public class CommentDAO implements ICommentDAO {
 		}
 
 		return false;
-
 	}
 
 	@Override
 	public boolean updateCommentByCommentID(Comment comment) {
 		// TODO Auto-generated method stub
-		String sql = "UPDATE comment SET Description=?,Votes=?,ModifiedAt=?,AnswerID=?,UserID=?,Reliability=? WHERE CommentID=?";
+		String sql = "UPDATE comment SET Description=?,ModifiedAt=?,AnswerID=?,UserID=?,Reliability=? WHERE CommentID=?";
 
 		try {
 			PreparedStatement ps = DbConnect.getMySQLConn().prepareStatement(sql);
-			ps.setString(1, comment.getText());
-			ps.setString(3, comment.getModifiedAt());
-			ps.setInt(4, comment.getAnswerID());
-			ps.setInt(5, comment.getUserID());
-			ps.setInt(6, comment.getReliability());
-			ps.setInt(7, comment.getCommentID());
+			ps.setString(1, comment.getDescription());
+			ps.setString(2, comment.getModifiedAt());
+			ps.setInt(3, comment.getAnswerID());
+			ps.setInt(4, comment.getUserID());
+			ps.setInt(5, comment.getReliability());
+			ps.setInt(6, comment.getCommentID());
 
 			return ps.executeUpdate() > 0;
 
@@ -155,12 +116,6 @@ public class CommentDAO implements ICommentDAO {
 		}
 
 		return false;
-
 	}
 
-	@Override
-	public boolean deleteCommentsByQuestionID(int QuestionID) {
-		// TODO Auto-generated method stub
-		return false;
-	}
 }

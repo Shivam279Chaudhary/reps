@@ -7,17 +7,11 @@ import com.project.entity.Comment;
 public interface ICommentDAO {
 	public boolean insertComment(Comment comment);
 
-	public List<Comment> getAllComment();
+	public List<Comment> getAllComment(int AnswerID);
 
-	public Comment getComment(int commentID);
+	public boolean deleteComment(int CommentID);
 
-	boolean updateCommentByCommentID(Comment comment);
+	public boolean deleteCommentsByAnswerID(int AnswerID);
 
-	boolean deleteCommentsByQuestionID(int QuestionID);
-
-	List<Comment> getAllCommentsDESC(int QuestionID);
-
-	boolean deleteComment(int CommentID);
-
-	boolean deleteCommentsByAnswerID(int AnswerID);
+	public boolean updateCommentByCommentID(Comment comment);
 }
