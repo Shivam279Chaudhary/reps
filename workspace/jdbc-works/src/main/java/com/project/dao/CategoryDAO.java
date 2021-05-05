@@ -53,43 +53,43 @@ public class CategoryDAO implements ICategoryDAO {
 	public Category getCategoryById(int categoryID) {
 		try {
 			checkID(categoryID);
-			String sql = "SELECT categoryID, categoryName FROM category WHERE categoryID = ?";
-			Category cat = new Category();
-			try (PreparedStatement ps = DbConnect.getMySQLConn().prepareStatement(sql);) {
-				ps.setInt(1, categoryID);
-				ResultSet rs = ps.executeQuery(); // DQL // statement
-				while (rs.next()) {
-					cat.setCategoryID(rs.getInt(1));
-					cat.setCategoryName(rs.getString(2));
-				}
-
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-
-			return cat;
 		} catch (InvalidID e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
+			return null;
 		}
-		return null;
+		String sql = "SELECT categoryID, categoryName FROM category WHERE categoryID = ?";
+		Category cat = new Category();
+		try (PreparedStatement ps = DbConnect.getMySQLConn().prepareStatement(sql);) {
+			ps.setInt(1, categoryID);
+			ResultSet rs = ps.executeQuery(); // DQL // statement
+			while (rs.next()) {
+				cat.setCategoryID(rs.getInt(1));
+				cat.setCategoryName(rs.getString(2));
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return cat;
 	}
 
 	@Override
 	public boolean removeCategory(int categoryID) {
 		try {
 			checkID(categoryID);
-			String sql = "DELETE FROM category WHERE categoryID = ?";
-
-			try (PreparedStatement ps = DbConnect.getMySQLConn().prepareStatement(sql);) {
-				ps.setInt(1, categoryID);
-				return ps.executeUpdate() > 0; // DQL statement
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
 		} catch (InvalidID e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
+		}
+		String sql = "DELETE FROM category WHERE categoryID = ?";
+		
+		try (PreparedStatement ps = DbConnect.getMySQLConn().prepareStatement(sql);) {
+			ps.setInt(1, categoryID);
+			return ps.executeUpdate() > 0; // DQL statement
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
 		return false;
 	}
@@ -98,21 +98,21 @@ public class CategoryDAO implements ICategoryDAO {
 	public boolean updateCategory(Category category) {
 		try {
 			checkID(category.getCategoryID());
-			String sql = "UPDATE category SET categoryName=? WHERE categoryID = ?";
-
-			try {
-				PreparedStatement ps = DbConnect.getMySQLConn().prepareStatement(sql);
-				ps.setString(1, category.getCategoryName());
-				ps.setInt(2, category.getCategoryID());
-
-				return ps.executeUpdate() > 0;
-
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
 		} catch (InvalidID e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
+		}
+		String sql = "UPDATE category SET categoryName=? WHERE categoryID = ?";
+		
+		try {
+			PreparedStatement ps = DbConnect.getMySQLConn().prepareStatement(sql);
+			ps.setString(1, category.getCategoryName());
+			ps.setInt(2, category.getCategoryID());
+			
+			return ps.executeUpdate() > 0;
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
 
 		return false;

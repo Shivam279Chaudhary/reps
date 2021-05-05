@@ -78,9 +78,10 @@ public class App {
 //			System.out.println(c);
 //		}
 		
+//		System.out.println(dao2.getCategoryById(13));
 		Category res = dao2.getCategoryById(13);
 		if(res!=null)
-			System.out.println();
+			System.out.println(res);
 		
 	}
 }
