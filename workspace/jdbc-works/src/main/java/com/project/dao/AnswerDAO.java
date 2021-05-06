@@ -9,7 +9,10 @@ import java.util.Date;
 import java.util.List;
 
 import com.project.entity.Answer;
+import com.project.entity.Category;
 import com.project.entity.Question;
+import com.project.exception.InvalidCategoryInputs;
+import com.project.exception.InvalidID;
 import com.project.interfaces.IAnswerDAO;
 import com.project.interfaces.IQuestionDAO;
 import com.project.utils.DbConnect;
@@ -43,6 +46,16 @@ public class AnswerDAO implements IAnswerDAO {
 
 	@Override
 	public Answer getAnswerByAnswerID(int AnswerID) {
+		
+		try {
+			checkID(AnswerID);
+		} catch (InvalidID e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+			return null;
+		}
+
+		
 		String sql = "select * from answer where AnswerID=?";
 		try {
 		
@@ -74,7 +87,17 @@ public class AnswerDAO implements IAnswerDAO {
 	
 	@Override
 	public List<Answer> getAllAnswersASC(int QuestionID) {
-String sql = "select * from answer where QuestionID= ? order by Votes ASC"; 
+		try {
+			checkQuestionID(QuestionID);
+		} catch (InvalidID e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+			return null;
+		}
+		
+		
+		
+		String sql = "select * from answer where QuestionID= ? order by Votes ASC"; 
 		
 		List<Answer> list;
 		list = new ArrayList<Answer>(); 
@@ -107,9 +130,19 @@ String sql = "select * from answer where QuestionID= ? order by Votes ASC";
 	
 	}
 
+	
+
 	@Override
 	public List<Answer> getAllAnswersDESC(int QuestionID) {
 		// TODO Auto-generated method stub
+		
+		try {
+			checkQuestionID(QuestionID);
+		} catch (InvalidID e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+			return null;
+		}
 String sql = "select * from answer where QuestionID= ? order by Votes DESC"; 
 		
 		List<Answer> list;
@@ -144,6 +177,14 @@ String sql = "select * from answer where QuestionID= ? order by Votes DESC";
 	@Override
 	public boolean deleteAnswer(int AnswerID) {
 		// TODO Auto-generated method stub
+		try {
+			checkID(AnswerID);
+		} catch (InvalidID e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+			return false;
+		}
+		
 		
 		try {
 		String sql = "DELETE from answer where AnswerID= ? "; 
@@ -164,6 +205,13 @@ String sql = "select * from answer where QuestionID= ? order by Votes DESC";
 	@Override
 	public boolean deleteAnswersByQuestionID(int QuestionID) {
 		// TODO Auto-generated method stub
+		try {
+			checkQuestionID(QuestionID);
+		} catch (InvalidID e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+			return false;
+		}
 		
 		
 		try {
@@ -186,6 +234,15 @@ String sql = "select * from answer where QuestionID= ? order by Votes DESC";
 	@Override
 	public boolean updateAnswerByAnswerID(Answer answer) {
 		// TODO Auto-generated method stub
+		try {
+			checkID(answer.getAnswerID());
+		} catch (InvalidID e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+			return false;
+		}
+		
+		
 		String sql = "UPDATE answer SET Description=?,Votes=?,ModifiedAt=?,QuestionID=?,UserID=?,Reliability=? WHERE AnswerID=?";
 		
 		try {
@@ -227,6 +284,59 @@ String sql = "select * from answer where QuestionID= ? order by Votes DESC";
         return -1;
 	     
 	}
+	
+	
+	private void checkID(int ID) throws InvalidID {
+		String sqlForException = "SELECT * FROM answer WHERE AnswerID=?";
+		try {
+			PreparedStatement psException = DbConnect.getMySQLConn().prepareStatement(sqlForException);
+			psException.setInt(1, ID);
+			ResultSet rs = psException.executeQuery();
+			if (!rs.next()) {
+				throw new InvalidID("Answer");
+			}
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+	}
+	
+	private void checkQuestionID(int questionID) throws InvalidID{
+		// TODO Auto-generated method stub
+		
+		String sqlForException = "SELECT * FROM questions WHERE QuestionID=?";
+		try {
+			PreparedStatement psException = DbConnect.getMySQLConn().prepareStatement(sqlForException);
+			psException.setInt(1, questionID);
+			ResultSet rs = psException.executeQuery();
+			if (!rs.next()) {
+				throw new InvalidID("Question");
+			}
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+	}
+
+//	private void checkInputs(Answer answer) throws InvalidCategoryInputs {
+//		String sql = "SELECT * FROM category where categoryName= ?";
+//		int size = 0;
+//		try {
+//			PreparedStatement psException = DbConnect.getMySQLConn().prepareStatement(sql);
+//			psException.setString(1, category.getCategoryName());
+//			ResultSet rs = psException.executeQuery();
+//			if (rs != null) {
+//				rs.last(); // moves cursor to the last row
+//				size = rs.getRow(); // get row id
+//			}
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		}
+//
+//		if (size >= 1)
+//			throw new InvalidCategoryInputs("\n Category Name \n CategoryName");
+//	}
 	
 	
 	

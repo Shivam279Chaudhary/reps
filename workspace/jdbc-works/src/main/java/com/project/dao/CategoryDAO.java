@@ -102,7 +102,7 @@ public class CategoryDAO implements ICategoryDAO {
 		}
 		return false;
 	}
-
+ 
 	@Override
 	public boolean updateCategory(Category category) {
 		try {

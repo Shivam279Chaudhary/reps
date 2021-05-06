@@ -41,14 +41,14 @@ public class App {
 //		}
 		
 		
-		Answer answer = new Answer();
-		answer.setAnswerID(10);
-		answer.setDescription("  updated new Answer");
-		answer.setVotes(10);
-		answer.setModifiedAt(currentTime);
-		answer.setQuestionID(2);
-		answer.setUserID(3);
-		answer.setReliability(10);
+//		Answer answer = new Answer();
+//		answer.setAnswerID(10);
+//		answer.setDescription("  updated new Answer");
+//		answer.setVotes(10);
+//		answer.setModifiedAt(currentTime);
+//		answer.setQuestionID(2);
+//		answer.setUserID(3);
+//		answer.setReliability(10);
 		
 		IAnswerDAO answerDAO = new AnswerDAO();
 		
@@ -57,9 +57,11 @@ public class App {
 //		answerDAO.updateAnswerByAnswerID(answer);
 		
 		
-		for(Answer ans : answerDAO.getAllAnswersASC(2)) {
-			System.out.println(ans);
-		}
+	    System.out.println(answerDAO.deleteAnswersByQuestionID(155));
+		
+//		for(Answer ans : answerDAO.getAllAnswersASC(2)) {
+//			System.out.println(ans);
+//		}
 		
 //=======
 ////
