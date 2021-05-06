@@ -25,7 +25,7 @@ public class CategoryDAO implements ICategoryDAO {
 			return false;
 		}
 		
-		String sql = "INSERT INTO category (categoryName) VALUES (?)";
+		String sql = "INSERT INTO category (categoryName) VALUES (?)	";
 		try {
 
 			PreparedStatement ps = DbConnect.getMySQLConn().prepareStatement(sql);
@@ -85,11 +85,10 @@ public class CategoryDAO implements ICategoryDAO {
 	}
 
 	@Override
-	public boolean removeCategory(int categoryID) {
+	public boolean removeCategory(int categoryID)  {
 		try {
 			checkID(categoryID);
 		} catch (InvalidID e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 		String sql = "DELETE FROM category WHERE categoryID = ?";
@@ -137,11 +136,11 @@ public class CategoryDAO implements ICategoryDAO {
 				throw new InvalidID("Category");
 			}
 		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 	}
-
+	
+	
 	private void checkInputs(Category category) throws InvalidCategoryInputs {
 		String sql = "SELECT * FROM category where categoryName= ?";
 		int size = 0;
@@ -158,7 +157,26 @@ public class CategoryDAO implements ICategoryDAO {
 		}
 
 		if (size >= 1)
-			throw new InvalidCategoryInputs("\n Category Name \n CategoryName");
+			throw new InvalidCategoryInputs("\n Category Name");
+	}
+
+	@Override
+	public int getCategoryIDByCategoryName(String name) {
+		String sql = "SELECT categoryID FROM category where categoryName=?";
+		try {
+			PreparedStatement ps = DbConnect.getMySQLConn().prepareStatement(sql);
+			ps.setString(1, name);
+			ResultSet rs = ps.executeQuery();
+			if (!rs.next()) {
+				throw new InvalidID("Category");
+			}
+			return rs.getInt(1);
+		}catch (InvalidID e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} 
+		return -1;
 	}
 
 }

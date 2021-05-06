@@ -15,4 +15,6 @@ public interface ICategoryDAO {
 	public boolean removeCategory(int categoryID) ;
 
 	public boolean updateCategory(Category category);
+	
+	public int getCategoryIDByCategoryName(String name);
 }
