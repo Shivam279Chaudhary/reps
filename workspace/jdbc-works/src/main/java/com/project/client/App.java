@@ -1,6 +1,5 @@
 package com.project.client;
 
-
 import com.project.dao.CategoryDAO;
 import com.project.dao.CommentDAO;
 import com.project.dao.QuestionDAO;
@@ -16,7 +15,6 @@ import com.project.interfaces.ISampleUserDAO;
 public class App {
 	public static void main(String[] args) {
 
-		
 //		Question question = new Question();
 //		question.setQuestionID(20);
 //		question.setTitle("How can i be fit forever?");
@@ -69,19 +67,21 @@ public class App {
 //		for (Comment q : dao1.getAllComment(1)) {
 //			System.out.println(q);
 //		}
-		
+
 		Category cat = new Category();
-		
+
 		ICategoryDAO dao2 = new CategoryDAO();
-		
-//		for(Category c : dao2.getAllCategory()) {
+		cat.setCategoryName("diet");
+		System.out.println(dao2.insertCategory(cat) ? "Category Inserted " : "Not Inserted");
+		System.out.println(dao2.removeCategory(17) ? "Category Removed " : "Not Removed");
+
+//		for (Category c : dao2.getAllCategory()) {
 //			System.out.println(c);
 //		}
-		
 //		System.out.println(dao2.getCategoryById(13));
-		Category res = dao2.getCategoryById(13);
-		if(res!=null)
-			System.out.println(res);
-		
+//		Category res = dao2.getCategoryById(13);
+//		if(res!=null)
+//			System.out.println(res);
+
 	}
 }
