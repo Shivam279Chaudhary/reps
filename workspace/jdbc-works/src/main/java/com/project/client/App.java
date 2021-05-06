@@ -72,12 +72,15 @@ public class App {
 
 		ICategoryDAO dao2 = new CategoryDAO();
 		cat.setCategoryName("diet");
-		System.out.println(dao2.insertCategory(cat) ? "Category Inserted " : "Not Inserted");
-		System.out.println(dao2.removeCategory(17) ? "Category Removed " : "Not Removed");
+//		System.out.println(dao2.insertCategory(cat) ? "Category Inserted " : "Not Inserted");
+//		System.out.println(dao2.removeCategory(20) ? "Category Removed " : "Not Removed");
+//		int res = dao2.getCategoryIDByCategoryName("diet");
+//		System.out.println( res == -1 ? "Category Not Found":"Found at :" + res);
+		
+		for (Category c : dao2.getAllCategory()) {
+			System.out.println(c);
+		}
 
-//		for (Category c : dao2.getAllCategory()) {
-//			System.out.println(c);
-//		}
 //		System.out.println(dao2.getCategoryById(13));
 //		Category res = dao2.getCategoryById(13);
 //		if(res!=null)
