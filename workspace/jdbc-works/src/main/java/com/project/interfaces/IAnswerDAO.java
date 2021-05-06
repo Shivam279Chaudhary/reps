@@ -14,6 +14,8 @@ public interface IAnswerDAO {
 	public boolean deleteAnswer(int AnswerID);
 	public boolean deleteAnswersByQuestionID(int QuestionID);
 	public boolean updateAnswerByAnswerID(Answer answer);
+	public int getLatestAnswerID();
+	public Answer getAnswerByAnswerID(int AnswerID);
 	
 	
 	

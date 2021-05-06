@@ -44,7 +44,7 @@ public class QuestionDAO implements IQuestionDAO {
 		try (PreparedStatement ps = DbConnect.getMySQLConn().prepareStatement(sql); ResultSet rs = ps.executeQuery(); // DQL
 																														// statement
 		) {
-			while (rs.next()) {
+			 while (rs.next()) {
 
 				Question question = new Question();
 				question.setQuestionID(rs.getInt(1));

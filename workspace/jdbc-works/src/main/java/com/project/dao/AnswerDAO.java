@@ -42,6 +42,37 @@ public class AnswerDAO implements IAnswerDAO {
 	}
 
 	@Override
+	public Answer getAnswerByAnswerID(int AnswerID) {
+		String sql = "select * from answer where AnswerID=?";
+		try {
+		
+			PreparedStatement ps = DbConnect.getMySQLConn().prepareStatement(sql);
+			ps.setInt(1, AnswerID);
+			ResultSet rs = ps.executeQuery();
+			
+			rs.next();
+			
+			Answer answer=new Answer();
+			answer.setAnswerID(rs.getInt(1));
+			answer.setDescription(rs.getString(2));
+			answer.setVotes(rs.getInt(3));
+			answer.setModifiedAt(rs.getString(4));
+			answer.setQuestionID(rs.getInt(5));
+			answer.setUserID(rs.getInt(6));
+			answer.setReliability(rs.getInt(7));
+			
+			return answer;
+		     
+			
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+		
+	}
+	
+	
+	@Override
 	public List<Answer> getAllAnswersASC(int QuestionID) {
 String sql = "select * from answer where QuestionID= ? order by Votes ASC"; 
 		
@@ -176,6 +207,25 @@ String sql = "select * from answer where QuestionID= ? order by Votes DESC";
 		
 		return false;
 		
+	}
+	
+	@Override
+	public int getLatestAnswerID() {
+		
+		String sql="SELECT AnswerID from answer ORDER BY AnswerID DESC LIMIT 1";
+		
+		try {
+		PreparedStatement ps = DbConnect.getMySQLConn().prepareStatement(sql);
+		ResultSet rs = ps.executeQuery(); 
+		
+		rs.next();
+		
+		return rs.getInt(1);}
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+        return -1;
+	     
 	}
 	
 	
