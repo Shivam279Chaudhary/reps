@@ -46,12 +46,12 @@ public class App {
 		
 //		System.out.println(answerDAO.insertAnswer(answer) ?"Inserted":"Not Inserted");
 		
-		answerDAO.updateAnswerByAnswerID(answer);
+//		answerDAO.updateAnswerByAnswerID(answer);
 		
 		
-//		for(Answer ans : answerDAO.getAllAnswersASC(2)) {
-//			System.out.println(ans);
-//		}
+		for(Answer ans : answerDAO.getAllAnswersASC(2)) {
+			System.out.println(ans);
+		}
 		
 	}
 }
