@@ -17,6 +17,10 @@ import com.project.interfaces.ICategoryDAO;
 class CategoryDAOTest {
 
 	@Test
+<<<<<<< HEAD
+	void test() {
+//		fail("Not yet implemented");
+=======
 	void CRUDCheckingWhenCorrectInput() {
 
 		Category cat = new Category();
@@ -79,6 +83,7 @@ class CategoryDAOTest {
 	void getCategoryIDByCategoryNameWhenInvalidCategoryName() {
 		ICategoryDAO dao = new CategoryDAO();
 		assertEquals(-1, dao.getCategoryIDByCategoryName("alpha"));
+>>>>>>> 30e209e10c6e657d9e1cae4b8c16e90e523accdb
 	}
 
 }
