@@ -3,18 +3,12 @@ package com.project.dao;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import com.project.entity.Answer;
-import com.project.entity.Category;
-import com.project.entity.Question;
-import com.project.exception.InvalidCategoryInputs;
 import com.project.exception.InvalidID;
 import com.project.interfaces.IAnswerDAO;
-import com.project.interfaces.IQuestionDAO;
 import com.project.utils.DbConnect;
 
 public class AnswerDAO implements IAnswerDAO {
@@ -23,30 +17,28 @@ public class AnswerDAO implements IAnswerDAO {
 	public boolean insertAnswer(Answer answer) {
 		// TODO Auto-generated method stub
 
-		String sql ="insert into answer (Description,Votes,ModifiedAt,QuestionID,UserID,Reliability) values(?,?,?,?,?,?)";
+		String sql = "insert into answer (Description,Votes,ModifiedAt,QuestionID,UserID,Reliability) values(?,?,?,?,?,?)";
 		try {
-			
+
 			PreparedStatement ps = DbConnect.getMySQLConn().prepareStatement(sql);
 			ps.setString(1, answer.getDescription());
 			ps.setInt(2, answer.getVotes());
 			ps.setString(3, answer.getModifiedAt());
 			ps.setInt(4, answer.getQuestionID());
 			ps.setInt(5, answer.getUserID());
-			ps.setInt(6,answer.getReliability() );
-	
-			
-			return ps.executeUpdate()>0;   // DML statement	
+			ps.setInt(6, answer.getReliability());
+
+			return ps.executeUpdate() > 0; // DML statement
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
-		
+
 		return false;
 	}
 
 	@Override
 	public Answer getAnswerByAnswerID(int AnswerID) {
-		
+
 		try {
 			checkID(AnswerID);
 		} catch (InvalidID e1) {
@@ -55,17 +47,16 @@ public class AnswerDAO implements IAnswerDAO {
 			return null;
 		}
 
-		
 		String sql = "select * from answer where AnswerID=?";
 		try {
-		
+
 			PreparedStatement ps = DbConnect.getMySQLConn().prepareStatement(sql);
 			ps.setInt(1, AnswerID);
 			ResultSet rs = ps.executeQuery();
-			
+
 			rs.next();
-			
-			Answer answer=new Answer();
+
+			Answer answer = new Answer();
 			answer.setAnswerID(rs.getInt(1));
 			answer.setDescription(rs.getString(2));
 			answer.setVotes(rs.getInt(3));
@@ -73,18 +64,16 @@ public class AnswerDAO implements IAnswerDAO {
 			answer.setQuestionID(rs.getInt(5));
 			answer.setUserID(rs.getInt(6));
 			answer.setReliability(rs.getInt(7));
-			
+
 			return answer;
-		     
-			
-		}catch (SQLException e) {
+
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return null;
-		
+
 	}
-	
-	
+
 	@Override
 	public List<Answer> getAllAnswersASC(int QuestionID) {
 		try {
@@ -94,21 +83,19 @@ public class AnswerDAO implements IAnswerDAO {
 			e1.printStackTrace();
 			return null;
 		}
-		
-		
-		
-		String sql = "select * from answer where QuestionID= ? order by Votes ASC"; 
-		
+
+		String sql = "select * from answer where QuestionID= ? order by Votes ASC";
+
 		List<Answer> list;
-		list = new ArrayList<Answer>(); 
+		list = new ArrayList<Answer>();
 		try {
 			PreparedStatement ps = DbConnect.getMySQLConn().prepareStatement(sql);
 			ps.setInt(1, QuestionID);
-			ResultSet rs = ps.executeQuery();  // DQL statement
-			
-	            while(rs.next()) {
-				
-				Answer answer=new Answer();
+			ResultSet rs = ps.executeQuery(); // DQL statement
+
+			while (rs.next()) {
+
+				Answer answer = new Answer();
 				answer.setAnswerID(rs.getInt(1));
 				answer.setDescription(rs.getString(2));
 				answer.setVotes(rs.getInt(3));
@@ -116,26 +103,21 @@ public class AnswerDAO implements IAnswerDAO {
 				answer.setQuestionID(rs.getInt(5));
 				answer.setUserID(rs.getInt(6));
 				answer.setReliability(rs.getInt(7));
-				
-				
-				list.add(answer); 
-				
+
+				list.add(answer);
+
 			}
-		} 	
-		 catch (SQLException e) {
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return list; 
-		
-	
-	}
+		return list;
 
-	
+	}
 
 	@Override
 	public List<Answer> getAllAnswersDESC(int QuestionID) {
 		// TODO Auto-generated method stub
-		
+
 		try {
 			checkQuestionID(QuestionID);
 		} catch (InvalidID e1) {
@@ -143,18 +125,18 @@ public class AnswerDAO implements IAnswerDAO {
 			e1.printStackTrace();
 			return null;
 		}
-String sql = "select * from answer where QuestionID= ? order by Votes DESC"; 
-		
+		String sql = "select * from answer where QuestionID= ? order by Votes DESC";
+
 		List<Answer> list;
-		list = new ArrayList<Answer>(); 
+		list = new ArrayList<Answer>();
 		try {
 			PreparedStatement ps = DbConnect.getMySQLConn().prepareStatement(sql);
 			ps.setInt(1, QuestionID);
-			ResultSet rs = ps.executeQuery();  // DQL statement
-			
-	            while(rs.next()) {
-				
-				Answer answer=new Answer();
+			ResultSet rs = ps.executeQuery(); // DQL statement
+
+			while (rs.next()) {
+
+				Answer answer = new Answer();
 				answer.setAnswerID(rs.getInt(1));
 				answer.setDescription(rs.getString(2));
 				answer.setVotes(rs.getInt(3));
@@ -162,16 +144,14 @@ String sql = "select * from answer where QuestionID= ? order by Votes DESC";
 				answer.setQuestionID(rs.getInt(5));
 				answer.setUserID(rs.getInt(6));
 				answer.setReliability(rs.getInt(7));
-				
-				
-				list.add(answer); 
-				
+
+				list.add(answer);
+
 			}
-		} 	
-		 catch (SQLException e) {
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return list; 
+		return list;
 	}
 
 	@Override
@@ -184,22 +164,20 @@ String sql = "select * from answer where QuestionID= ? order by Votes DESC";
 			e1.printStackTrace();
 			return false;
 		}
-		
-		
+
 		try {
-		String sql = "DELETE from answer where AnswerID= ? "; 
-		PreparedStatement ps = DbConnect.getMySQLConn().prepareStatement(sql);
-		ps.setInt(1,AnswerID);
-		
-		return ps.executeUpdate()>0;   // DML statement	
-		
-		
-		}catch (SQLException e) {
+			String sql = "DELETE from answer where AnswerID= ? ";
+			PreparedStatement ps = DbConnect.getMySQLConn().prepareStatement(sql);
+			ps.setInt(1, AnswerID);
+
+			return ps.executeUpdate() > 0; // DML statement
+
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
+
 		return false;
-		
+
 	}
 
 	@Override
@@ -212,23 +190,20 @@ String sql = "select * from answer where QuestionID= ? order by Votes DESC";
 			e1.printStackTrace();
 			return false;
 		}
-		
-		
+
 		try {
-			String sql = "DELETE from answer where QuestionID= ? "; 
+			String sql = "DELETE from answer where QuestionID= ? ";
 			PreparedStatement ps = DbConnect.getMySQLConn().prepareStatement(sql);
-			ps.setInt(1,QuestionID);
-			
-			return ps.executeUpdate()>0;   // DML statement	
-			
-			
-			
-			}catch (SQLException e) {
-				e.printStackTrace();
-			}
-		
+			ps.setInt(1, QuestionID);
+
+			return ps.executeUpdate() > 0; // DML statement
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
 		return false;
-		
+
 	}
 
 	@Override
@@ -241,51 +216,48 @@ String sql = "select * from answer where QuestionID= ? order by Votes DESC";
 			e1.printStackTrace();
 			return false;
 		}
-		
-		
+
 		String sql = "UPDATE answer SET Description=?,Votes=?,ModifiedAt=?,QuestionID=?,UserID=?,Reliability=? WHERE AnswerID=?";
-		
+
 		try {
-		PreparedStatement ps = DbConnect.getMySQLConn().prepareStatement(sql);
-		ps.setString(1, answer.getDescription());
-		ps.setInt(2, answer.getVotes());
-		ps.setString(3, answer.getModifiedAt());
-		ps.setInt(4, answer.getQuestionID());
-		ps.setInt(5, answer.getUserID());
-		ps.setInt(6,answer.getReliability() );
-		ps.setInt(7,answer.getAnswerID());
-		
-		return ps.executeUpdate()>0; 
-		
-		}catch (SQLException e) {
+			PreparedStatement ps = DbConnect.getMySQLConn().prepareStatement(sql);
+			ps.setString(1, answer.getDescription());
+			ps.setInt(2, answer.getVotes());
+			ps.setString(3, answer.getModifiedAt());
+			ps.setInt(4, answer.getQuestionID());
+			ps.setInt(5, answer.getUserID());
+			ps.setInt(6, answer.getReliability());
+			ps.setInt(7, answer.getAnswerID());
+
+			return ps.executeUpdate() > 0;
+
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
-		
+
 		return false;
-		
+
 	}
-	
+
 	@Override
 	public int getLatestAnswerID() {
-		
-		String sql="SELECT AnswerID from answer ORDER BY AnswerID DESC LIMIT 1";
-		
+
+		String sql = "SELECT AnswerID from answer ORDER BY AnswerID DESC LIMIT 1";
+
 		try {
-		PreparedStatement ps = DbConnect.getMySQLConn().prepareStatement(sql);
-		ResultSet rs = ps.executeQuery(); 
-		
-		rs.next();
-		
-		return rs.getInt(1);}
-		catch (SQLException e) {
+			PreparedStatement ps = DbConnect.getMySQLConn().prepareStatement(sql);
+			ResultSet rs = ps.executeQuery();
+
+			rs.next();
+
+			return rs.getInt(1);
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-        return -1;
-	     
+		return -1;
+
 	}
-	
-	
+
 	private void checkID(int ID) throws InvalidID {
 		String sqlForException = "SELECT * FROM answer WHERE AnswerID=?";
 		try {
@@ -300,10 +272,10 @@ String sql = "select * from answer where QuestionID= ? order by Votes DESC";
 			e1.printStackTrace();
 		}
 	}
-	
-	private void checkQuestionID(int questionID) throws InvalidID{
+
+	private void checkQuestionID(int questionID) throws InvalidID {
 		// TODO Auto-generated method stub
-		
+
 		String sqlForException = "SELECT * FROM questions WHERE QuestionID=?";
 		try {
 			PreparedStatement psException = DbConnect.getMySQLConn().prepareStatement(sqlForException);
@@ -316,7 +288,7 @@ String sql = "select * from answer where QuestionID= ? order by Votes DESC";
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		
+
 	}
 
 //	private void checkInputs(Answer answer) throws InvalidCategoryInputs {
@@ -337,8 +309,5 @@ String sql = "select * from answer where QuestionID= ? order by Votes DESC";
 //		if (size >= 1)
 //			throw new InvalidCategoryInputs("\n Category Name \n CategoryName");
 //	}
-	
-	
-	
-	
+
 }

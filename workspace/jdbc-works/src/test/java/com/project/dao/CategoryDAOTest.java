@@ -3,24 +3,19 @@ package com.project.dao;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.lang.reflect.Executable;
-
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import com.project.entity.Category;
-import com.project.exception.InvalidID;
 import com.project.interfaces.ICategoryDAO;
 
 class CategoryDAOTest {
 
 	@Test
-<<<<<<< HEAD
 	void test() {
 //		fail("Not yet implemented");
-=======
+	}
+
 	void CRUDCheckingWhenCorrectInput() {
 
 		Category cat = new Category();
@@ -53,7 +48,7 @@ class CategoryDAOTest {
 	@Test
 	void removeCategoryWhenInvalidCategoryID() {
 		ICategoryDAO dao = new CategoryDAO();
-		assertFalse( dao.removeCategory(1100));
+		assertFalse(dao.removeCategory(1100));
 	}
 
 	@Test
@@ -62,28 +57,27 @@ class CategoryDAOTest {
 		Category cat = new Category();
 		cat.setCategoryID(100);
 		cat.setCategoryName("something random");
-		assertFalse( dao.updateCategory(cat));
+		assertFalse(dao.updateCategory(cat));
 	}
-	
+
 	@Test
 	void insertCategoryWhenInvalidCategoryName() {
 		ICategoryDAO dao = new CategoryDAO();
 		Category cat = new Category();
 		cat.setCategoryName("diet");
-		assertFalse( dao.insertCategory(cat));
+		assertFalse(dao.insertCategory(cat));
 	}
-	
+
 	@Test
 	void getCategoryByIDWhenInvalidCategoryID() {
 		ICategoryDAO dao = new CategoryDAO();
-		assertNull( dao.getCategoryById(100));
+		assertNull(dao.getCategoryById(100));
 	}
-	
+
 	@Test
 	void getCategoryIDByCategoryNameWhenInvalidCategoryName() {
 		ICategoryDAO dao = new CategoryDAO();
 		assertEquals(-1, dao.getCategoryIDByCategoryName("alpha"));
->>>>>>> 30e209e10c6e657d9e1cae4b8c16e90e523accdb
 	}
 
 }
