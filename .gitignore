@@ -1,6 +1,9 @@
+
 *.class
 /**/target/
 workspace/jdbc-works/.settings
 workspace/jdbc-works/src/main/resources
 workspace/jdbc-works/src/main/java/com/project/client/App.java
+
+
 
