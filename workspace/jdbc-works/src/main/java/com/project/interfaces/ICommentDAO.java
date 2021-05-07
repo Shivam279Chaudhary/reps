@@ -14,4 +14,8 @@ public interface ICommentDAO {
 	public boolean deleteCommentsByAnswerID(int AnswerID);
 
 	public boolean updateCommentByCommentID(Comment comment);
+
+	Comment getCommentByCommentID(int CommentID);
+
+	int getLatestCommentID();
 }

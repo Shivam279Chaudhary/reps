@@ -7,10 +7,26 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.project.entity.Comment;
+import com.project.exception.InvalidID;
 import com.project.interfaces.ICommentDAO;
 import com.project.utils.DbConnect;
 
 public class CommentDAO implements ICommentDAO {
+
+	private void checkID(int ID) throws InvalidID {
+		String sqlForException = "SELECT * FROM comment WHERE CommentID=?";
+		try {
+			PreparedStatement psException = DbConnect.getMySQLConn().prepareStatement(sqlForException);
+			psException.setInt(1, ID);
+			ResultSet rs = psException.executeQuery();
+			if (!rs.next()) {
+				throw new InvalidID("Comment");
+			}
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+	}
 
 	@Override
 	public boolean insertComment(Comment comment) {
@@ -29,6 +45,43 @@ public class CommentDAO implements ICommentDAO {
 			e.printStackTrace();
 		}
 		return false;
+	}
+
+	@Override
+	public Comment getCommentByCommentID(int CommentID) {
+
+		try {
+			checkID(CommentID);
+		} catch (InvalidID e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+			return null;
+		}
+
+		String sql = "select * from comment where CommentID=?";
+		try {
+
+			PreparedStatement ps = DbConnect.getMySQLConn().prepareStatement(sql);
+			ps.setInt(1, CommentID);
+			ResultSet rs = ps.executeQuery();
+
+			rs.next();
+
+			Comment comment = new Comment();
+			comment.setCommentID(rs.getInt(1));
+			comment.setDescription(rs.getString(2));
+			comment.setModifiedAt(rs.getString(3));
+			comment.setAnswerID(rs.getInt(4));
+			comment.setUserID(rs.getInt(5));
+			comment.setReliability(rs.getInt(6));
+
+			return comment;
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+
 	}
 
 	@Override
@@ -118,4 +171,22 @@ public class CommentDAO implements ICommentDAO {
 		return false;
 	}
 
+	@Override
+	public int getLatestCommentID() {
+
+		String sql = "SELECT CommentID from comment ORDER BY CommentID DESC LIMIT 1";
+
+		try {
+			PreparedStatement ps = DbConnect.getMySQLConn().prepareStatement(sql);
+			ResultSet rs = ps.executeQuery();
+
+			rs.next();
+
+			return rs.getInt(1);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return -1;
+
+	}
 }
